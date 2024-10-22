@@ -16,15 +16,19 @@ new Vue({
     <HeaderComponent />
     <router-view />
   </div>
+  <div id="app">
+    <FooterComponent />
+  </div>
 </template>
 
 <script>
 import HeaderComponent from './components/header.vue';
+import FooterComponent from './components/footer.vue';
 
 export default {
   name: 'App',
   components: {
-    HeaderComponent,
+    HeaderComponent, FooterComponent
   },
 };
 </script>

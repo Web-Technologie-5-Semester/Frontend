@@ -1,6 +1,7 @@
 <template>
     <div>
-      <h1>Impressum</h1>
+      <h2>Impressum</h2>
+      <p>Hier schreiben wir unser Impressum rein!</p>
     </div>
   </template>
   
