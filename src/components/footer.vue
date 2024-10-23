@@ -1,6 +1,5 @@
 <template>
     <footer>
-      <p>&copy; Informationen</p>
       <router-link to="/impressum">Impressum</router-link>
     </footer>
   </template>
