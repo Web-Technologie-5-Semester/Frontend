@@ -1,6 +1,6 @@
 <template>
     <header>
-      <h1>Bücher24.de</h1>
+      <h1><router-link to="/">Bücher24.de</router-link></h1>
       <nav>
         <router-link to="/">Startseite</router-link>
         <router-link to="/products">Produkte</router-link>
