@@ -1,80 +1,79 @@
 /* Globale Stile */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f8f8f8;
-  }
-  
-  /* Header */
-  #app {
-    text-align: center;
-  }
-  
-  header {
-    background: #0159b0;
-    padding: 1em;
-  }
-  nav a {
-    margin: 0 1em;
-  }
-  
-  header h1 {
-    margin: 0;
-    font-size: 2rem;
-    color:brown;
-  }
-  
-  /* Hauptinhalt */
-  main {
-    padding: 20px;
-  }
-  
-  .product {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
-    padding: 10px;
-    margin: 10px;
-    transition: transform 0.2s;
-  }
-  
-  .product:hover {
-    transform: scale(1.05); /* Vergrößert das Produkt beim Hover */
-  }
-  
-  .product img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-  }
-  
-  /* Buttons */
-  .button {
-    background-color: #4CAF50; /* Grüner Hintergrund */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s;
-  }
-  
-  .button:hover {
-    background-color: #45a049; /* Dunklerer Grünton beim Hover */
-  }
-  
-  /* Fußzeile */
-  footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-  }
-  
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f8f8f8;
+}
+
+/* Header */
+#app {
+  text-align: center;
+}
+
+header {
+  background: #0159b0;
+  padding: 1em;
+}
+nav a {
+  margin: 0 1em;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color:brown;
+}
+
+/* Hauptinhalt */
+main {
+  padding: 20px;
+}
+
+.product {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  transition: transform 0.2s;
+}
+
+.product:hover {
+  transform: scale(1.05); /* Vergrößert das Produkt beim Hover */
+}
+
+.product img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.button {
+  background-color: #4CAF50; /* Grüner Hintergrund */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #45a049; /* Dunklerer Grünton beim Hover */
+}
+
+/* Fußzeile */
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
