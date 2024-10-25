@@ -24,7 +24,13 @@ const routes = [
     path: '/impressum',
     name: 'Impressum',
     component: Impressum
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/loginView.vue'), // Gehen Sie sicher, dass LoginView.vue existiert
   }
+  
 ];
 
 const router = createRouter({

@@ -13,6 +13,9 @@
           <li>
             <router-link to="/cart">Warenkorb</router-link>
           </li>
+          <li>
+            <router-link to="/login">Login</router-link> <!-- Neuer Login-Link -->
+          </li>
         </ul>
       </nav>
     </div>
