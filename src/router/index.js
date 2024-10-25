@@ -3,6 +3,7 @@ import Home from '../views/homeViews.vue';
 import Products from '../views/productsViews.vue';
 import Cart from '../views/cartViews.vue';
 import Impressum from '../views/impressumViews.vue';
+import Registration from '../views/registrationView.vue';
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     name: 'Impressum',
     component: Impressum
   },
+  {
+    path: '/register',
+    component: Registration,
+  },
+
   {
     path: '/login',
     name: 'Login',
