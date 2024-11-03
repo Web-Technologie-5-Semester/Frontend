@@ -10,6 +10,7 @@
       >
         <div class="product">
           <h3>{{ product.name }}</h3>
+          <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
           <p>{{ product.description }}</p>
           <p>Preis: {{ product.price }} €</p>
           <button @click.prevent="addToCart(product)">In den Warenkorb</button>
@@ -25,7 +26,7 @@ export default {
   data() {
     return {
       products: [
-        { id: 1, name: "Harry Potter Teil 1", description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
+        { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
         { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
         { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 39.99 },
         { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 39.99 },

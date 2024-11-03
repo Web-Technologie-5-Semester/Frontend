@@ -1,10 +1,11 @@
 <template>
   <div class="article-view">
     <h1>{{ product.name }}</h1>
+    <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
     <p>{{ product.description }}</p>
     <p>Preis: {{ product.price }} €</p>
-    <button @click="addToCart(product)">In den Warenkorb</button>
-    <router-link to="/products" class="back-button">Zurück zur Produktübersicht</router-link>
+    <button @click="addToCart(product)" class="button">In den Warenkorb</button><br><br>
+    <router-link to="/products" class="button">Zurück zur Produktübersicht</router-link>
   </div>
 </template>
 
@@ -19,7 +20,7 @@ export default {
   created() {
     const productId = parseInt(this.$route.params.id);
     const products = [
-    { id: 1, name: "Harry Potter Teil 1", description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
+        { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
         { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
         { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 39.99 },
         { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 39.99 },
@@ -83,5 +84,16 @@ button:hover {
   background-color: #0056b3;
 }
 
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5em;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
+.button:hover {
+  background-color: #0056b3;
+}
 </style>
