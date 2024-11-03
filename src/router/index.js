@@ -4,6 +4,8 @@ import Products from '../views/productsViews.vue';
 import Cart from '../views/cartViews.vue';
 import Impressum from '../views/impressumViews.vue';
 import Registration from '../views/registrationView.vue';
+import ArticleView from '@/components/articleView.vue';
+import ProductsViews from '@/views/productsViews';
 
 const routes = [
   {
@@ -35,6 +37,17 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/loginView.vue'), // Gehen Sie sicher, dass LoginView.vue existiert
+  },
+
+  {
+    path: '/',
+    name: 'productsViews',
+    component: ProductsViews
+  },
+  {
+    path: '/product/:id',
+    name: 'articleView',
+    component: ArticleView
   }
   
 ];

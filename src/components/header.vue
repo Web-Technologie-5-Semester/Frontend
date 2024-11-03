@@ -12,7 +12,7 @@
             <router-link to="/">Startseite</router-link>
           </li>
           <li>
-            <router-link to="/products">Produkte</router-link>
+            <router-link to="/products">Bücher</router-link>
           </li>
           <li>
             <router-link to="/cart">Warenkorb</router-link>

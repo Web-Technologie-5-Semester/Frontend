@@ -1,31 +1,25 @@
 <template>
-  <div>
-    <h1>Bücher</h1>
-    <div class="product-grid">
-      <router-link
-        :to="{ name: 'articleView', params: { id: product.id }}"
-        v-for="product in products"
-        :key="product.id"
-        class="product-link"
-      >
-        <div class="product">
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
-          <p>Preis: {{ product.price }} €</p>
-          <button @click.prevent="addToCart(product)">In den Warenkorb</button>
-        </div>
-      </router-link>
-    </div>
+  <div class="article-view">
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p>Preis: {{ product.price }} €</p>
+    <button @click="addToCart(product)">In den Warenkorb</button>
+    <router-link to="/products" class="back-button">Zurück zur Produktübersicht</router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: "productsViews",
+  name: "articleView",
   data() {
     return {
-      products: [
-        { id: 1, name: "Harry Potter Teil 1", description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
+      product: {}
+    };
+  },
+  created() {
+    const productId = parseInt(this.$route.params.id);
+    const products = [
+    { id: 1, name: "Harry Potter Teil 1", description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
         { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
         { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 39.99 },
         { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 39.99 },
@@ -36,8 +30,8 @@ export default {
         { id: 9, name: "Harry Potter Teil 9", description: "Beschreibung von Harry Potter Teil 9", price: 39.99 },
         { id: 10, name: "Harry Potter Teil 10", description: "Beschreibung von Harry Potter Teil 10", price: 39.99 },
         // Weitere Produkte hinzufügen
-      ],
-    };
+    ];
+    this.product = products.find((product) => product.id === productId);
   },
   methods: {
     addToCart(product) {
@@ -58,36 +52,21 @@ export default {
 </script>
 
 <style scoped>
-.product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-}
-
-.product-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.product {
+.article-view {
+  padding: 2em;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 1em;
-  box-sizing: border-box;
+  max-width: 600px;
+  margin: auto;
   text-align: center;
-  transition: transform 0.3s ease;
 }
 
-.product:hover {
-  transform: scale(1.05);
+.article-view h1 {
+  font-size: 2em;
+  margin-bottom: 1em;
 }
 
-.product h3 {
-  font-size: 1.2em;
-  margin: 0.5em 0;
-}
-
-.product p {
+.article-view p {
   margin: 0.5em 0;
 }
 
@@ -103,4 +82,6 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+
 </style>

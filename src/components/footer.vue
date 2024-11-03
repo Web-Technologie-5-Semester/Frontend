@@ -16,7 +16,6 @@ export default {
 <style scoped>
 footer {
   background: linear-gradient(90deg, #001f3f, #0074D9); /* Dunkelblauer bis Türkiser Hintergrund */
-  padding: 1em 2em; /* Mehr Padding für luftigen Look */
   font-family: 'Poppins', sans-serif; /* Schriftart konsistent mit Header */
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Schatten für Tiefe */
   color: #ffffff; /* Weißer Text für Kontrast */
