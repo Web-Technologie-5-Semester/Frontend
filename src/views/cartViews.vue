@@ -22,7 +22,7 @@
           </li>
         </ul>
         <h2>Gesamt: {{ total.toFixed(2) }} €</h2>
-        <button class="button">Zur Kasse</button>
+        <router-link to="/checkout" class="button">Zur Kasse</router-link>
       </div>
     </div>
   </template>

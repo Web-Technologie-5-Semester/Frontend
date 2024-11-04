@@ -6,6 +6,7 @@ import Impressum from '../views/impressumViews.vue';
 import Registration from '../views/registrationView.vue';
 import ArticleView from '@/components/articleView.vue';
 import ProductsViews from '@/views/productsViews';
+import CheckoutView from '@/views/checkoutView.vue';
 
 const routes = [
   {
@@ -48,7 +49,12 @@ const routes = [
     path: '/product/:id',
     name: 'articleView',
     component: ArticleView
-  }
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: CheckoutView,
+  },
   
 ];
 
