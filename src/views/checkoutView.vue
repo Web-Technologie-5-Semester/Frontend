@@ -4,14 +4,23 @@
       
       <!-- Warenkorb-Übersicht -->
       <section class="cart-overview">
-        <h2>Warenkorb</h2>
-        <ul>
-          <li v-for="item in cartItems" :key="item.id">
-            {{ item.name }} - {{ item.price }} €
-          </li>
-        </ul>
-        <p>Gesamt: {{ totalPrice }} €</p>
-      </section>
+  <h2>Warenkorb</h2>
+  <ul>
+    <li v-for="item in cartItems" :key="item.id" class="cart-item">
+      <!-- Bild des Produkts -->
+      <img :src="item.image" alt="Product image" />
+
+      <!-- Produktdetails -->
+      <div class="item-details">
+        <h2>{{ item.name }}</h2>
+        <p>Preis: {{ item.price.toFixed(2) }} €</p>
+        <p>Menge: {{ item.quantity }}</p>
+      </div>
+    </li>
+  </ul>
+  <p>Gesamt: {{ totalPrice.toFixed(2) }} €</p>
+</section>
+
   
       <!-- Lieferadresse -->
       <section class="address-section">
@@ -98,5 +107,34 @@
   .cart-overview, .address-section, .payment-section {
     margin-bottom: 20px;
   }
+  .cart-overview {
+  padding: 20px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.cart-item img {
+  max-width: 80px;
+  margin-right: 20px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h2 {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.item-details p {
+  margin: 5px 0;
+}
+
   </style>
   
