@@ -1,7 +1,7 @@
 <template>
     <div>
       <h1>Impressum</h1>
-      <p>Diese Seite wurden von Rebeka Fischer, Maximilian Haas,<br>
+      <p>Diese Seite wurde von Rebeka Fischer, Maximilian Haas,<br>
       Yusuf Aslan und Julian Heinkel erstellt.</p>
     </div>
   </template>
