@@ -2,15 +2,12 @@
   <header>
     <div class="header-content">
       <!-- Logo und Titel in einem flexiblen Container -->
-      <div class="logo-title">
+      <router-link to="/" class="logo-title">
         <img src="@/assets/Download.webp" alt="Bücher24 Logo" class="logo" />
-        <h1><router-link to="/" class="site-title">Bücher24.de</router-link></h1>
-      </div>
+        <h1 class="site-title">Bücher24.de</h1>
+      </router-link>
       <nav aria-label="Hauptnavigation">
         <ul>
-          <li>
-            <router-link to="/">Startseite</router-link>
-          </li>
           <li>
             <router-link to="/products">Bücher</router-link>
           </li>
@@ -35,10 +32,10 @@ export default {
 <style scoped>
 /* Modernes Styling für den Header */
 header {
-  background: linear-gradient(90deg, #001f3f, #0074D9); /* Dunkelblauer bis Türkiser Hintergrund */
-  padding: 1em 2em; /* Mehr Padding für luftigen Look */
-  font-family: 'Poppins', sans-serif; /* Neue Schriftart */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Schatten für Tiefe */
+  background: linear-gradient(90deg, #001f3f, #0074D9);
+  padding: 1em 2em;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .header-content {
@@ -51,30 +48,26 @@ header {
 .logo-title {
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .logo {
-  width: 72px;
+  width: 55px; /* Anpassung der Größe des Logos */
   height: auto;
   margin-right: 10px;
 }
 
-/* Neues Design für den Seitentitel */
+/* Schriftgröße und Stil für den Seitentitel */
 .site-title {
   font-weight: 700;
-  font-size: 1.8em; /* Schriftgröße für den Titel */
+  font-size: 2.5em; /* Gleiche visuelle Höhe wie das Logo */
   background: linear-gradient(45deg, #4a90e2, #3de6c1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent; /* Textfarbe wird durch Verlauf ersetzt */
+  color: transparent;
   margin: 0;
   transition: background-color 0.3s ease;
   font-family: 'Poppins', sans-serif;
-}
-
-/* Hover Effekt entfernt */
-.site-title:hover {
-  /* Hier ist kein Hover-Effekt mehr */
 }
 
 nav ul {
@@ -93,7 +86,7 @@ nav a {
   font-weight: 500;
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.5em; /* Schriftgröße erhöht */
+  font-size: 1.5em;
   padding: 0.5em 1em;
   border-radius: 5px;
   transition: background 0.3s ease, color 0.3s ease;
@@ -101,7 +94,7 @@ nav a {
 
 /* Hover Effekt für Navigationslinks */
 nav a:hover {
-  background: #ffbf00; /* Goldener Hintergrund beim Hover */
+  background: #ffbf00;
   color: #001f3f;
 }
 
