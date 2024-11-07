@@ -2,8 +2,8 @@
   <div class="article-view">
     <h1>{{ product.name }}</h1>
     <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
-    <p>{{ product.description }}</p>
-    <p>Preis: {{ product.price }} €</p>
+    <p class="description">{{ product.description }}</p>
+    <p class="price">Preis: {{ product.price }} €</p>
     <button @click="addToCart(product)" class="button">In den Warenkorb</button><br><br>
     <router-link to="/products" class="button">Zurück zur Produktübersicht</router-link>
   </div>
@@ -18,19 +18,18 @@ export default {
     };
   },
   created() {
-    const productId = parseInt(this.$route.params.id);
+    const productId = parseInt(this.$route.params.id); // Produkt-ID aus der URL
     const products = [
-        { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
-        { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
-        { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 39.99 },
-        { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 39.99 },
-        { id: 5, name: "Harry Potter Teil 5", description: "Beschreibung von Harry Potter Teil 5", price: 39.99 },
-        { id: 6, name: "Harry Potter Teil 6", description: "Beschreibung von Harry Potter Teil 6", price: 39.99 },
-        { id: 7, name: "Harry Potter Teil 7", description: "Beschreibung von Harry Potter Teil 7", price: 39.99 },
-        { id: 8, name: "Harry Potter Teil 8", description: "Beschreibung von Harry Potter Teil 8", price: 39.99 },
-        { id: 9, name: "Harry Potter Teil 9", description: "Beschreibung von Harry Potter Teil 9", price: 39.99 },
-        { id: 10, name: "Harry Potter Teil 10", description: "Beschreibung von Harry Potter Teil 10", price: 39.99 },
-        // Weitere Produkte hinzufügen
+      { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
+      { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
+      { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 39.99 },
+      { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 39.99 },
+      { id: 5, name: "Harry Potter Teil 5", description: "Beschreibung von Harry Potter Teil 5", price: 39.99 },
+      { id: 6, name: "Harry Potter Teil 6", description: "Beschreibung von Harry Potter Teil 6", price: 39.99 },
+      { id: 7, name: "Harry Potter Teil 7", description: "Beschreibung von Harry Potter Teil 7", price: 39.99 },
+      { id: 8, name: "Harry Potter Teil 8", description: "Beschreibung von Harry Potter Teil 8", price: 39.99 },
+      { id: 9, name: "Harry Potter Teil 9", description: "Beschreibung von Harry Potter Teil 9", price: 39.99 },
+      { id: 10, name: "Harry Potter Teil 10", description: "Beschreibung von Harry Potter Teil 10", price: 39.99 },
     ];
     this.product = products.find((product) => product.id === productId);
   },
@@ -55,45 +54,50 @@ export default {
 <style scoped>
 .article-view {
   padding: 2em;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 8px;
   max-width: 600px;
   margin: auto;
   text-align: center;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.article-view h1 {
-  font-size: 2em;
-  margin-bottom: 1em;
+.product-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
-.article-view p {
-  margin: 0.5em 0;
+.description {
+  font-size: 1.1em;
+  color: #555;
+  margin: 20px 0;
 }
 
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.5em;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
+.price {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #0074D9;
 }
 
 .button {
-  background-color: #007bff;
+  background-color: #0074D9;
   color: white;
+  padding: 12px 24px;
+  font-size: 1.2em;
   border: none;
-  padding: 0.5em;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #005fa3;
+}
+
+.router-link {
+  margin-top: 10px;
+  display: inline-block;
 }
 </style>
