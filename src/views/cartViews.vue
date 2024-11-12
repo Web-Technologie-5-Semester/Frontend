@@ -22,7 +22,7 @@
           </li>
         </ul>
         <h2>Gesamt: {{ total.toFixed(2) }} €</h2>
-        <button class="checkout-button">Zur Kasse</button>
+        <router-link to="/checkout" class="button">Zur Kasse</router-link>
       </div>
     </div>
   </template>
@@ -82,13 +82,16 @@
     margin: 0 10px;
   }
   
-  .checkout-button {
-    background-color: #4CAF50;
+  button {
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
+    padding: 4px;
     cursor: pointer;
   }
+
+  button:hover {
+  background-color: #0056b3;
+}
   </style>
   

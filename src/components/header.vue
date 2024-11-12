@@ -1,20 +1,21 @@
 <template>
   <header>
     <div class="header-content">
-      <h1><router-link to="/">Bücher24.de</router-link></h1>
+      <!-- Logo und Titel in einem flexiblen Container -->
+      <router-link to="/" class="logo-title">
+        <img src="@/assets/Download.webp" alt="Bücher24 Logo" class="logo" />
+        <h1 class="site-title">Bücher24.de</h1>
+      </router-link>
       <nav aria-label="Hauptnavigation">
         <ul>
           <li>
-            <router-link to="/">Startseite</router-link>
-          </li>
-          <li>
-            <router-link to="/products">Produkte</router-link>
+            <router-link to="/products">Bücher</router-link>
           </li>
           <li>
             <router-link to="/cart">Warenkorb</router-link>
           </li>
           <li>
-            <router-link to="/login">Login</router-link> <!-- Neuer Login-Link -->
+            <router-link to="/login">Login</router-link>
           </li>
         </ul>
       </nav>
@@ -31,69 +32,80 @@ export default {
 <style scoped>
 /* Modernes Styling für den Header */
 header {
-  background: linear-gradient(90deg, #5574ff, #4a1a8c); /* Gradient Hintergrund */
-  padding: 1em 2em; /* Mehr Padding für einen luftigen Look */
-  font-family: 'Poppins', sans-serif; /* Neue Schriftart */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Schatten für Tiefe */
+  background: linear-gradient(90deg, #001f3f, #0074D9);
+  padding: 1em 2em;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .header-content {
-  display: flex; /* Flexbox für die horizontale Ausrichtung */
-  align-items: center; /* Zentrieren der Elemente entlang der Höhe */
-  justify-content: space-between; /* Platz zwischen den Elementen */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-h1 {
-  font-weight: 700; /* Fett für Titel */
-  font-size: 2.5em; /* Erhöhte Größe des Titels */
-  color: #ffffff; /* Weiße Schriftfarbe für Kontrast */
-  margin: 0; /* Kein Margin, um vertikale Abweichung zu vermeiden */
-  transition: color 0.3s ease; /* Übergang für Farbänderung */
+/* Flexbox Container für Logo und Titel */
+.logo-title {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 
-h1:hover {
-  color: #ffdf00; /* Gelbe Farbe beim Hover für den Titel */
+.logo {
+  width: 55px; /* Anpassung der Größe des Logos */
+  height: auto;
+  margin-right: 10px;
 }
 
-nav {
-  position: relative; /* Position für die Navigation */
+/* Schriftgröße und Stil für den Seitentitel */
+.site-title {
+  font-weight: 700;
+  font-size: 2.5em; /* Gleiche visuelle Höhe wie das Logo */
+  background: linear-gradient(45deg, #4a90e2, #3de6c1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin: 0;
+  transition: background-color 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 nav ul {
-  list-style: none; /* Keine Aufzählungszeichen */
-  padding: 0; /* Kein Padding */
-  margin: 0; /* Kein Margin */
-  display: flex; /* Flexbox für horizontale Anordnung */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
 }
 
 nav li {
-  position: relative; /* Position für die Links */
+  position: relative;
 }
 
 nav a {
-  margin: 0 1.5em; /* Abstand zwischen den Links anpassen */
-  font-weight: 500; /* Leicht fett für Links */
-  color: #ffffff; /* Weiße Schrift für Kontrast */
-  text-decoration: none; /* Entferne Unterstrich */
-  font-size: 1.2em; /* Erhöhte Schriftgröße für die Links */
-  padding: 0.5em 1em; /* Padding für die Links */
-  border-radius: 5px; /* Abgerundete Ecken für die Links */
-  transition: background 0.3s ease, color 0.3s ease; /* Übergang für Hover-Effekte */
+  margin: 0 1.5em;
+  font-weight: 500;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.5em;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* Hover Effekt für Navigationslinks */
 nav a:hover {
-  background: #ffdf00; /* Gelber Hintergrund beim Hover */
-  color: #4a1a8c; /* Dunklere Farbe beim Hover für den Text */
+  background: #ffbf00;
+  color: #001f3f;
 }
 
 /* Mobile Responsivität */
 @media (max-width: 768px) {
   nav ul {
-    flex-direction: column; /* Vertikale Anordnung bei kleineren Bildschirmen */
+    flex-direction: column;
   }
 
   nav a {
-    margin: 0.5em 0; /* Abstand zwischen Links */
+    margin: 0.5em 0;
   }
 }
 </style>

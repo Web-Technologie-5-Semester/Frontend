@@ -43,28 +43,47 @@ main {
   transform: scale(1.05); /* Vergrößert das Produkt beim Hover */
 }
 
-.product img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
+.product-image {
+  width: 80px; /* Breite des Bildes auf 80 Pixel setzen */
+  height: auto; /* Höhe automatisch anpassen */
+  border-radius: 4px;
+  margin-bottom: 0.5em;
 }
 
+
 /* Buttons */
-.button {
-  background-color: #4CAF50; /* Grüner Hintergrund */
+button {
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
+  padding: 0.5em;
+  border-radius: 4px;
   cursor: pointer;
-  text-align: center;
-  text-decoration: none;
+}
+
+.button {
   display: inline-block;
-  transition: background-color 0.3s;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  width: 180px; /* Festgelegte Breite für gleiche Größe */
+  margin-right: 0.5em; /* Abstand zwischen den Buttons */
 }
 
 .button:hover {
-  background-color: #45a049; /* Dunklerer Grünton beim Hover */
+  background-color: #0056b3;
+}
+
+
+
+button:hover {
+  background-color: #0056b3;
 }
 
 /* Fußzeile */
@@ -76,4 +95,5 @@ footer {
   position: relative;
   bottom: 0;
   width: 100%;
+
 }
