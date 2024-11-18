@@ -5,14 +5,25 @@
       <h3>Filter</h3>
       <div>
         <label>
-          <input type="checkbox" value="Neu" v-model="selectedCategories" />
-          Neu
-        </label>
+          <input type="checkbox" value="Neu" v-model="selectedCategories" />Neu
+        </label><br><br>
       </div>
+      <div>
+        <label>Genre: </label>
+        <select v-model="selectedGenre">
+          <option value="">Alle Genres</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Science Fiction">Science Fiction</option>
+          <option value="Krimi">Krimi</option>
+          <option value="Romantik">Romantik</option>
+          <option value="Thriller">Thriller</option>
+          <option value="Drama">Drama</option>
+        </select>
+      </div><br>
       <div>
         <label>Maximaler Preis:</label>
         <input type="number" v-model="maxPrice" placeholder="Max. Preis" />
-      </div>
+      </div><br>
     </aside>
 
     <!-- Produkte -->
@@ -29,6 +40,7 @@
           <div class="product">
             <h3>{{ product.name }}</h3>
             <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
+            <p>{{ product.genre }}</p>
             <p>{{ product.description }}</p>
             <p>Preis: {{ product.price }} €</p>
             <button @click.prevent="addToCart(product)">In den Warenkorb</button>
@@ -45,14 +57,15 @@ export default {
   data() {
     return {
       products: [
-        { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
-        { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
-        { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 49.99 },
-        { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 19.99 },
-        { id: 5, name: "Harry Potter Teil 5", description: "Beschreibung von Harry Potter Teil 5", price: 59.99 },
-        { id: 6, name: "Hard Land", description: "Beschreibung von Hard Land", price: 39.99 },
+        { id: 1, name: "Harry Potter Teil 1", genre: "Fantasy", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
+        { id: 2, name: "Harry Potter Teil 2", genre: "Fantasy", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
+        { id: 3, name: "Harry Potter Teil 3", genre: "Fantasy", description: "Beschreibung von Harry Potter Teil 3", price: 49.99 },
+        { id: 4, name: "Harry Potter Teil 4", genre: "Fantasy", description: "Beschreibung von Harry Potter Teil 4", price: 19.99 },
+        { id: 5, name: "Harry Potter Teil 5", genre: "Fantasy", description: "Beschreibung von Harry Potter Teil 5", price: 59.99 },
+        { id: 6, name: "Hard Land", genre: "Drama", description: "Beschreibung von Hard Land", price: 39.99 },
       ],
       selectedCategories: [],
+      selectedGenre: "",
       maxPrice: null,
     };
   },
@@ -62,8 +75,9 @@ export default {
         const matchesCategory = this.selectedCategories.length
           ? this.selectedCategories.includes(product.category)
           : true;
+        const matchesGenre = this.selectedGenre ? product.genre === this.selectedGenre : true;
         const matchesPrice = this.maxPrice ? product.price <= this.maxPrice : true;
-        return matchesCategory && matchesPrice;
+        return matchesCategory && matchesGenre && matchesPrice;
       });
     },
   },
@@ -105,6 +119,12 @@ export default {
 }
 
 .filter-menu input[type="number"] {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.5em;
+}
+
+.filter-menu input[type="text"] {
   width: 100%;
   padding: 0.5em;
   margin-top: 0.5em;
