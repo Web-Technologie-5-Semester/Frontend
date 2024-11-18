@@ -3,6 +3,7 @@
     <h1>{{ product.name }}</h1>
     <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
     <p class="description">{{ product.description }}</p>
+    <p class="description">{{ product.verlag }}</p>
     <p class="price">Preis: {{ product.price }} €</p>
     <button @click="addToCart(product)" class="button">In den Warenkorb</button><br><br>
     <router-link to="/products" class="button">Zurück zur Produktübersicht</router-link>
@@ -18,22 +19,25 @@ export default {
     };
   },
   created() {
-    const productId = parseInt(this.$route.params.id); // Produkt-ID aus der URL
-    const products = [
-      { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
-      { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
-      { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 39.99 },
-      { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 39.99 },
-      { id: 5, name: "Harry Potter Teil 5", description: "Beschreibung von Harry Potter Teil 5", price: 39.99 },
-      { id: 6, name: "Harry Potter Teil 6", description: "Beschreibung von Harry Potter Teil 6", price: 39.99 },
-      { id: 7, name: "Harry Potter Teil 7", description: "Beschreibung von Harry Potter Teil 7", price: 39.99 },
-      { id: 8, name: "Harry Potter Teil 8", description: "Beschreibung von Harry Potter Teil 8", price: 39.99 },
-      { id: 9, name: "Harry Potter Teil 9", description: "Beschreibung von Harry Potter Teil 9", price: 39.99 },
-      { id: 10, name: "Harry Potter Teil 10", description: "Beschreibung von Harry Potter Teil 10", price: 39.99 },
-    ];
-    this.product = products.find((product) => product.id === productId);
+    this.loadProduct();
+  },
+  watch: {
+    // Überwacht Änderungen an der ID in der Route
+    "$route.params.id": "loadProduct"
   },
   methods: {
+    loadProduct() {
+      const productId = parseInt(this.$route.params.id); // Produkt-ID aus der URL
+      const products = [
+        { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 29.99 },
+        { id: 2, name: "Harry Potter Teil 2", image: require('@/assets/harry-potter-teil-2.jpg'), description: "Beschreibung von Harry Potter Teil 2", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 39.99 },
+        { id: 3, name: "Harry Potter Teil 3", image: require('@/assets/harry-potter-teil-3.jpg'), description: "Beschreibung von Harry Potter Teil 3", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 39.99 },
+        { id: 4, name: "Harry Potter Teil 4", image: require('@/assets/harry-potter-teil-4.jpg'), description: "Beschreibung von Harry Potter Teil 4", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 39.99 },
+        { id: 5, name: "Harry Potter Teil 5", image: require('@/assets/harry-potter-teil-5.jpg'), description: "Beschreibung von Harry Potter Teil 5", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 39.99 },
+        { id: 6, name: "Hard Land", image: require('@/assets/hard-land.jpg'), description: "Beschreibung von Hard Land", author: "Benedict Wells", verlag: "DuMont", price: 39.99 },
+      ];
+      this.product = products.find((product) => product.id === productId);
+    },
     addToCart(product) {
       let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
       const existingItem = cartItems.find(item => item.id === product.id);
@@ -50,6 +54,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .article-view {

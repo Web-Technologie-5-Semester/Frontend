@@ -5,14 +5,42 @@
       <h3>Filter</h3>
       <div>
         <label>
-          <input type="checkbox" value="Neu" v-model="selectedCategories" />
-          Neu
-        </label>
+          <input type="checkbox" value="Neu" v-model="selectedCategories" />Neu
+        </label><br><br>
       </div>
+      <div>
+        <label>Genre: </label>
+        <select v-model="selectedGenre">
+          <option value="">Alle Genres</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Science Fiction">Science Fiction</option>
+          <option value="Krimi">Krimi</option>
+          <option value="Romantik">Romantik</option>
+          <option value="Thriller">Thriller</option>
+          <option value="Drama">Drama</option>
+        </select>
+      </div><br>
+      <div>
+        <label>Autor: </label>
+        <select v-model="selectedAuthor">
+          <option value="">Alle Autoren</option>
+          <option value="J.K. Rowling">J.K. Rowling</option>
+          <option value="Benedict Wells">Benedict Wells</option>
+        </select>
+      </div><br>
+      <div>
+        <label>Verlag: </label>
+        <select v-model="selectedVerlag">
+          <option value="">Alle Verlage</option>
+          <option value="DuMont">DuMont</option>
+          <option value="Ernst Klett Verlag">Ernst Klett Verlag</option>
+          <option value="Cornelsen Verlag">Cornelsen Verlag</option>
+        </select>
+      </div><br>
       <div>
         <label>Maximaler Preis:</label>
         <input type="number" v-model="maxPrice" placeholder="Max. Preis" />
-      </div>
+      </div><br>
     </aside>
 
     <!-- Produkte -->
@@ -29,7 +57,10 @@
           <div class="product">
             <h3>{{ product.name }}</h3>
             <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
+            <p>{{ product.genre }}</p>
+            <p> {{ product.author }}</p>
             <p>{{ product.description }}</p>
+            <p>{{ product.verlag }}</p>
             <p>Preis: {{ product.price }} €</p>
             <button @click.prevent="addToCart(product)">In den Warenkorb</button>
           </div>
@@ -45,14 +76,17 @@ export default {
   data() {
     return {
       products: [
-        { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
-        { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
-        { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 49.99 },
-        { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 19.99 },
-        { id: 5, name: "Harry Potter Teil 5", description: "Beschreibung von Harry Potter Teil 5", price: 59.99 },
-        { id: 6, name: "Hard Land", description: "Beschreibung von Hard Land", price: 39.99 },
+        { id: 1, name: "Harry Potter Teil 1", genre: "Fantasy", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 29.99 },
+        { id: 2, name: "Harry Potter Teil 2", genre: "Fantasy", image: require('@/assets/harry-potter-teil-2.jpg'), description: "Beschreibung von Harry Potter Teil 2", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 39.99 },
+        { id: 3, name: "Harry Potter Teil 3", genre: "Fantasy", image: require('@/assets/harry-potter-teil-3.jpg'), description: "Beschreibung von Harry Potter Teil 3", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 49.99 },
+        { id: 4, name: "Harry Potter Teil 4", genre: "Fantasy", image: require('@/assets/harry-potter-teil-4.jpg'), description: "Beschreibung von Harry Potter Teil 4", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 19.99 },
+        { id: 5, name: "Harry Potter Teil 5", genre: "Fantasy", image: require('@/assets/harry-potter-teil-5.jpg'), description: "Beschreibung von Harry Potter Teil 5", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 59.99 },
+        { id: 6, name: "Hard Land", genre: "Drama", image: require('@/assets/hard-land.jpg'), description: "Beschreibung von Hard Land", author: "Benedict Wells", verlag: "DuMont", price: 39.99 },
       ],
       selectedCategories: [],
+      selectedGenre: "",
+      selectedAuthor: "",
+      selectedVerlag: "",
       maxPrice: null,
     };
   },
@@ -62,8 +96,11 @@ export default {
         const matchesCategory = this.selectedCategories.length
           ? this.selectedCategories.includes(product.category)
           : true;
+        const matchesGenre = this.selectedGenre ? product.genre === this.selectedGenre : true;
+        const matchesVerlag = this.selectedVerlag ? product.verlag === this.selectedVerlag : true;
+        const matchesAuthor = this.selectedAuthor ? product.author === this.selectedAuthor : true;
         const matchesPrice = this.maxPrice ? product.price <= this.maxPrice : true;
-        return matchesCategory && matchesPrice;
+        return matchesCategory && matchesGenre && matchesAuthor &&matchesVerlag && matchesPrice;
       });
     },
   },
@@ -105,6 +142,12 @@ export default {
 }
 
 .filter-menu input[type="number"] {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.5em;
+}
+
+.filter-menu input[type="text"] {
   width: 100%;
   padding: 0.5em;
   margin-top: 0.5em;
