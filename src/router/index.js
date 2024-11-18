@@ -7,6 +7,8 @@ import Registration from '../views/registrationView.vue';
 import ArticleView from '@/components/articleView.vue';
 import ProductsViews from '@/views/productsViews';
 import CheckoutView from '@/views/checkoutView.vue';
+import OfferBooksView from '@/views/offerBooksView.vue';
+
 
 const routes = [
   {
@@ -55,6 +57,11 @@ const routes = [
     name: 'Checkout',
     component: CheckoutView,
   },
+  {
+    path: '/offerBooksView',
+    name: 'OfferBooksView',
+    component: OfferBooksView,
+  }
   
 ];
 

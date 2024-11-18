@@ -44,7 +44,7 @@ main {
 }
 
 .product-image {
-  width: 80px; /* Breite des Bildes auf 80 Pixel setzen */
+  width: 250px; /* Breite des Bildes auf 80 Pixel setzen */
   height: auto; /* Höhe automatisch anpassen */
   border-radius: 4px;
   margin-bottom: 0.5em;
