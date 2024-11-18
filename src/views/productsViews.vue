@@ -1,22 +1,40 @@
 <template>
-  <div>
-    <h1>Bücher</h1>
-    <div class="product-grid">
-      <router-link
-        :to="{ name: 'articleView', params: { id: product.id }}"
-        v-for="product in products"
-        :key="product.id"
-        class="product-link"
-      >
-        <div class="product">
-          <h3>{{ product.name }}</h3>
-          <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
-          <p>{{ product.description }}</p>
-          <p>Preis: {{ product.price }} €</p>
-          <button @click.prevent="addToCart(product)">In den Warenkorb</button>
-        </div>
-      </router-link>
-    </div>
+  <div class="container">
+    <!-- Filtermenu -->
+    <aside class="filter-menu">
+      <h3>Filter</h3>
+      <div>
+        <label>
+          <input type="checkbox" value="Neu" v-model="selectedCategories" />
+          Neu
+        </label>
+      </div>
+      <div>
+        <label>Maximaler Preis:</label>
+        <input type="number" v-model="maxPrice" placeholder="Max. Preis" />
+      </div>
+    </aside>
+
+    <!-- Produkte -->
+    <main class="products-container">
+      <h1>Bücher</h1>
+      <div class="product-grid">
+        <router-link
+          :to="{ name: 'articleView', params: { id: product.id }}"
+          v-for="product in filteredProducts" 
+          :key="product.id"
+          class="product-link"
+        >
+          <div class="product">
+            <h3>{{ product.name }}</h3>
+            <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
+            <p>{{ product.description }}</p>
+            <p>Preis: {{ product.price }} €</p>
+            <button @click.prevent="addToCart(product)">In den Warenkorb</button>
+          </div>
+        </router-link>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -28,17 +46,25 @@ export default {
       products: [
         { id: 1, name: "Harry Potter Teil 1", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", price: 29.99 },
         { id: 2, name: "Harry Potter Teil 2", description: "Beschreibung von Harry Potter Teil 2", price: 39.99 },
-        { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 39.99 },
-        { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 39.99 },
-        { id: 5, name: "Harry Potter Teil 5", description: "Beschreibung von Harry Potter Teil 5", price: 39.99 },
-        { id: 6, name: "Harry Potter Teil 6", description: "Beschreibung von Harry Potter Teil 6", price: 39.99 },
-        { id: 7, name: "Harry Potter Teil 7", description: "Beschreibung von Harry Potter Teil 7", price: 39.99 },
-        { id: 8, name: "Harry Potter Teil 8", description: "Beschreibung von Harry Potter Teil 8", price: 39.99 },
-        { id: 9, name: "Harry Potter Teil 9", description: "Beschreibung von Harry Potter Teil 9", price: 39.99 },
-        { id: 10, name: "Harry Potter Teil 10", description: "Beschreibung von Harry Potter Teil 10", price: 39.99 },
-        // Weitere Produkte hinzufügen
+        { id: 3, name: "Harry Potter Teil 3", description: "Beschreibung von Harry Potter Teil 3", price: 49.99 },
+        { id: 4, name: "Harry Potter Teil 4", description: "Beschreibung von Harry Potter Teil 4", price: 19.99 },
+        { id: 5, name: "Harry Potter Teil 5", description: "Beschreibung von Harry Potter Teil 5", price: 59.99 },
+        { id: 6, name: "Hard Land", description: "Beschreibung von Hard Land", price: 39.99 },
       ],
+      selectedCategories: [],
+      maxPrice: null,
     };
+  },
+  computed: {
+    filteredProducts() {
+      return this.products.filter((product) => {
+        const matchesCategory = this.selectedCategories.length
+          ? this.selectedCategories.includes(product.category)
+          : true;
+        const matchesPrice = this.maxPrice ? product.price <= this.maxPrice : true;
+        return matchesCategory && matchesPrice;
+      });
+    },
   },
   methods: {
     addToCart(product) {
@@ -53,12 +79,41 @@ export default {
       }
 
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  gap: 2em;
+}
+
+/* Filtermenu-Styling */
+.filter-menu {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.filter-menu h3 {
+  margin-bottom: 1em;
+}
+
+.filter-menu input[type="number"] {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.5em;
+}
+
+/* Produktübersicht */
+.products-container {
+  flex: 3;
+}
+
 .product-grid {
   display: flex;
   flex-wrap: wrap;
@@ -74,22 +129,12 @@ export default {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 1em;
-  box-sizing: border-box;
   text-align: center;
   transition: transform 0.3s ease;
 }
 
 .product:hover {
   transform: scale(1.05);
-}
-
-.product h3 {
-  font-size: 1.2em;
-  margin: 0.5em 0;
-}
-
-.product p {
-  margin: 0.5em 0;
 }
 
 button {
