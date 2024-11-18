@@ -18,6 +18,7 @@
     <!-- Produkte -->
     <main class="products-container">
       <h1>Bücher</h1>
+      <router-link to="/offerBooksView" class="add-book-button">Neues Buch anlegen</router-link>
       <div class="product-grid">
         <router-link
           :to="{ name: 'articleView', params: { id: product.id }}"
@@ -147,6 +148,21 @@ button {
 }
 
 button:hover {
+  background-color: #0056b3;
+}
+
+/* Button für "Neues Buch anlegen" */
+.add-book-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-bottom: 1em;
+}
+
+.add-book-button:hover {
   background-color: #0056b3;
 }
 </style>
