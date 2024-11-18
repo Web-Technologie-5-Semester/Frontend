@@ -8,6 +8,7 @@ import ArticleView from '@/components/articleView.vue';
 import ProductsViews from '@/views/productsViews';
 import CheckoutView from '@/views/checkoutView.vue';
 import OfferBooksView from '@/views/offerBooksView.vue';
+import WelcomePage from "@/components/WelcomePage.vue";
 
 
 const routes = [
@@ -61,6 +62,11 @@ const routes = [
     path: '/offerBooksView',
     name: 'OfferBooksView',
     component: OfferBooksView,
+  },
+  {
+    path: "/welcomePage",
+    name: "WelcomePage",
+    component: WelcomePage
   }
   
 ];
