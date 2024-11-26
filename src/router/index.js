@@ -9,6 +9,7 @@ import ProductsViews from '@/views/productsViews';
 import CheckoutView from '@/views/checkoutView.vue';
 import OfferBooksView from '@/views/offerBooksView.vue';
 import WelcomePage from "@/components/WelcomePage.vue";
+import SearchView from '../views/searchView.vue';
 
 
 const routes = [
@@ -67,6 +68,12 @@ const routes = [
     path: "/welcomePage",
     name: "WelcomePage",
     component: WelcomePage
+  },
+  {
+    path: "/search",
+    name: "SearchResults",
+    component: SearchView,
+    props: (route) => ({ searchQuery: route.query.q }),
   }
   
 ];
