@@ -37,7 +37,6 @@ export default {
   data() {
     return {
       products: [
-        // Beispielprodukte (diese sollten ggf. dynamisch ersetzt werden)
         { id: 1, name: "Harry Potter Teil 1", genre: "Fantasy", price: 29.99 },
         { id: 2, name: "Harry Potter Teil 2", genre: "Fantasy", price: 39.99 },
         { id: 3, name: "Harry Potter Teil 3", genre: "Fantasy", price: 49.99 },
@@ -47,6 +46,14 @@ export default {
       ],
       filteredSuggestions: [], // Gefilterte Vorschläge basierend auf Eingaben
     };
+  },
+  mounted() {
+    // Globalen Mousedown-Listener hinzufügen
+    document.addEventListener("mousedown", this.handleClickOutside);
+  },
+  beforeUnmount() {
+    // Event Listener beim Zerstören des Components entfernen
+    document.removeEventListener("mousedown", this.handleClickOutside);
   },
   methods: {
     /**
@@ -89,6 +96,23 @@ export default {
           name: "SearchResults",
           query: { q: this.searchQuery },
         });
+      }
+      // Schließe die Vorschläge, wenn auf das Such-Icon geklickt wird
+      this.filteredSuggestions = [];
+    },
+    /**
+     * Überprüft, ob der Klick außerhalb des Suchfelds oder Dropdowns war
+     */
+    handleClickOutside(event) {
+      const searchBar = this.$refs.searchInput;
+      const suggestionsDropdown = this.$el.querySelector('.suggestions-dropdown');
+      // Wenn der Klick außerhalb des Suchbereichs oder des Dropdowns ist
+      if (
+        searchBar && !searchBar.contains(event.target) &&
+        suggestionsDropdown && !suggestionsDropdown.contains(event.target)
+      ) {
+        // Schließe das Dropdown
+        this.filteredSuggestions = [];
       }
     },
   },
