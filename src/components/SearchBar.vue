@@ -25,67 +25,99 @@
   </div>
 </template>
 
-
-
 <script>
 export default {
   name: "SearchBar",
   props: {
     searchQuery: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
       products: [
-        { id: 1, name: "Harry Potter Teil 1", genre: "Fantasy", image: require('@/assets/harry-potter-teil-1.jpg'), description: "Beschreibung von Harry Potter Teil 1", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 29.99 },
-        { id: 2, name: "Harry Potter Teil 2", genre: "Fantasy", image: require('@/assets/harry-potter-teil-2.jpg'), description: "Beschreibung von Harry Potter Teil 2", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 39.99 },
-        { id: 3, name: "Harry Potter Teil 3", genre: "Fantasy", image: require('@/assets/harry-potter-teil-3.jpg'), description: "Beschreibung von Harry Potter Teil 3", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 49.99 },
-        { id: 4, name: "Harry Potter Teil 4", genre: "Fantasy", image: require('@/assets/harry-potter-teil-4.jpg'), description: "Beschreibung von Harry Potter Teil 4", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 19.99 },
-        { id: 5, name: "Harry Potter Teil 5", genre: "Fantasy", image: require('@/assets/harry-potter-teil-5.jpg'), description: "Beschreibung von Harry Potter Teil 5", author: "J.K. Rowling", verlag: "Cornelsen Verlag", price: 59.99 },
-        { id: 6, name: "Hard Land", genre: "Drama", image: require('@/assets/hard-land.jpg'), description: "Beschreibung von Hard Land", author: "Benedict Wells", verlag: "DuMont", price: 39.99 },
+        { id: 1, name: "Harry Potter Teil 1", genre: "Fantasy", price: 29.99 },
+        { id: 2, name: "Harry Potter Teil 2", genre: "Fantasy", price: 39.99 },
+        { id: 3, name: "Harry Potter Teil 3", genre: "Fantasy", price: 49.99 },
+        { id: 4, name: "Harry Potter Teil 4", genre: "Drama", price: 19.99 },
+        { id: 5, name: "Harry Potter Teil 5", genre: "Drama", price: 19.99 },
+        { id: 6, name: "Hard Land", genre: "Drama", price: 24.99 },
       ],
-      filteredSuggestions: [] // Gefilterte Produktvorschläge
+      filteredSuggestions: [], // Gefilterte Vorschläge basierend auf Eingaben
     };
   },
+  mounted() {
+    // Globalen Mousedown-Listener hinzufügen
+    document.addEventListener("mousedown", this.handleClickOutside);
+  },
+  beforeUnmount() {
+    // Event Listener beim Zerstören des Components entfernen
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  },
   methods: {
+    /**
+     * Aktualisiere den Suchbegriff und filtere Vorschläge
+     */
     updateQuery(event) {
       this.$emit("update:searchQuery", event.target.value);
       this.filterSuggestions(event.target.value);
     },
-    onSearchClick() {
-      if (this.searchQuery.trim()) {
-        this.$router.push({ name: "SearchResults", query: { q: this.searchQuery } });
-      }
-    },
+    /**
+     * Filtere Vorschläge basierend auf der Eingabe
+     */
     filterSuggestions(query) {
-      if (query) {
-        this.filteredSuggestions = this.products.filter(product =>
+      if (query.trim()) {
+        this.filteredSuggestions = this.products.filter((product) =>
           product.name.toLowerCase().includes(query.toLowerCase())
         );
       } else {
         this.filteredSuggestions = [];
       }
     },
+    /**
+     * Reagiere auf Klick auf ein Suchergebnis
+     */
     onSuggestionClick(suggestion) {
-      // Navigiere direkt zur Artikelansicht des Produkts
+      // Navigiere zur Produktseite
       this.$router.push({ name: "articleView", params: { id: suggestion.id } });
 
-      // Leere die Vorschlagsliste
+      // Leere die Vorschläge und das Suchfeld
       this.filteredSuggestions = [];
-
-      // Leere das Suchfeld und fokussiere es erneut
       this.$emit("update:searchQuery", "");
-      this.$nextTick(() => {
-        // Fokus explizit auf das Input-Feld setzen
-        this.$refs.searchInput.focus();
-      });
-    }
-  }
+    },
+    /**
+     * Verarbeite den Klick auf das Such-Icon
+     */
+    onSearchClick() {
+      if (this.searchQuery.trim()) {
+        // Navigiere zur Suchergebnisseite
+        this.$router.push({
+          name: "SearchResults",
+          query: { q: this.searchQuery },
+        });
+      }
+      // Schließe die Vorschläge, wenn auf das Such-Icon geklickt wird
+      this.filteredSuggestions = [];
+    },
+    /**
+     * Überprüft, ob der Klick außerhalb des Suchfelds oder Dropdowns war
+     */
+    handleClickOutside(event) {
+      const searchBar = this.$refs.searchInput;
+      const suggestionsDropdown = this.$el.querySelector('.suggestions-dropdown');
+      // Wenn der Klick außerhalb des Suchbereichs oder des Dropdowns ist
+      if (
+        searchBar && !searchBar.contains(event.target) &&
+        suggestionsDropdown && !suggestionsDropdown.contains(event.target)
+      ) {
+        // Schließe das Dropdown
+        this.filteredSuggestions = [];
+      }
+    },
+  },
 };
 </script>
-
 
 <style scoped>
 .custom-searchbar {
