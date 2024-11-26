@@ -4,21 +4,24 @@
     <div v-if="results.length" class="results-container">
       <h2>Ergebnisse für "{{ searchQuery }}":</h2>
       <div class="results-grid">
-        <div
+        <!-- Router-Link für dynamische Navigation -->
+        <router-link
+          :to="{ name: 'articleView', params: { id: result.id }}"
           v-for="(result, index) in results"
           :key="index"
-          class="result-card"
-          @click="navigateToProduct(result.id)"
+          class="product-link"
         >
-          <img :src="result.image" :alt="`Bild von ${result.name}`" class="result-image" />
-          <div class="result-info">
-            <h3 class="result-title">{{ result.name }}</h3>
-            <p class="result-author">{{ result.author }}</p>
-            <p class="result-genre">{{ result.genre }}</p>
-            <p class="result-verlag">{{ result.verlag }}</p>
-            <p class="result-price">{{ result.price }} €</p>
+          <div class="result-card">
+            <img :src="result.image" :alt="`Bild von ${result.name}`" class="result-image" />
+            <div class="result-info">
+              <h3 class="result-title">{{ result.name }}</h3>
+              <p class="result-author">{{ result.author }}</p>
+              <p class="result-genre">{{ result.genre }}</p>
+              <p class="result-verlag">{{ result.verlag }}</p>
+              <p class="result-price">{{ result.price }} €</p>
+            </div>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
 
@@ -71,10 +74,6 @@ export default {
         product.verlag.toLowerCase().includes(query.toLowerCase())
       );
     },
-    navigateToProduct(productId) {
-      // Navigiert zur Detailansicht des Produkts
-      this.$router.push({ name: "ProductView", params: { id: productId } });
-    },
   },
   mounted() {
     // Führt beim Laden der Komponente die erste Suche durch
@@ -97,6 +96,11 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .result-card {
