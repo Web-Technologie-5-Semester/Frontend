@@ -48,7 +48,7 @@
         <label for="genre">Genre:</label>
         <select id="genre" v-model="book.genre" required>
           <option value="" disabled>Bitte wählen</option>
-          <option v-for="genre in genres" :key="genre" :value="genre">{{ genre }}</option>
+          <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
         </select>
       </div>
       <div class="form-group">
@@ -84,7 +84,6 @@
   </div>
 </template>
 
-
 <script>
 import axios from "axios";
 
@@ -109,7 +108,7 @@ export default {
         birthday: "",
       },
       authors: [],
-      genres: ["Roman", "Science Fiction", "Fantasy", "Thriller", "Sachbuch", "Krimi", "Sonstiges"],
+      genres: [],
       ageRestrictions: [0, 6, 12, 16, 18],
       publishers: [],
       isAddingAuthor: false,
@@ -180,30 +179,44 @@ export default {
         alert("Bitte Name und Geburtsdatum eingeben.");
       }
     },
+    fetchAuthors() {
+      axios
+        .get("http://127.0.0.1:8000/author")
+        .then((response) => {
+          this.authors = response.data;
+        })
+        .catch((error) => {
+          console.error("Fehler beim Abrufen der Autoren:", error);
+        });
+    },
+    fetchPublishers() {
+      axios
+        .get("http://127.0.0.1:8000/publisher")
+        .then((response) => {
+          this.publishers = response.data;
+        })
+        .catch((error) => {
+          console.error("Fehler beim Abrufen der Verlage:", error);
+        });
+    },
+    fetchGenres() {
+      axios
+        .get("http://127.0.0.1:8000/genre")
+        .then((response) => {
+          this.genres = response.data;
+        })
+        .catch((error) => {
+          console.error("Fehler beim Abrufen der Genres:", error);
+        });
+    },
   },
   mounted() {
-    axios
-      .get("http://127.0.0.1:8000/author")
-      .then((response) => {
-        this.authors = response.data;
-      })
-      .catch((error) => {
-        console.error("Fehler beim Abrufen der Autoren:", error);
-      });
-
-    axios
-      .get("http://127.0.0.1:8000/publisher")
-      .then((response) => {
-        this.publishers = response.data;
-      })
-      .catch((error) => {
-        console.error("Fehler beim Abrufen der Verlage:", error);
-      });
+    this.fetchAuthors();
+    this.fetchPublishers();
+    this.fetchGenres();
   },
 };
 </script>
-
-
 
 <style scoped>
 .offer-books-container {
