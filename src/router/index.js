@@ -10,6 +10,7 @@ import CheckoutView from '@/views/checkoutView.vue';
 import OfferBooksView from '@/views/offerBooksView.vue';
 import WelcomePage from "@/components/WelcomePage.vue";
 import SearchView from '../views/searchView.vue';
+import VerkäuferRegistrationView from '../views/verkäuferRegistrationView.vue';
 
 
 const routes = [
@@ -37,6 +38,10 @@ const routes = [
     path: '/register',
     component: Registration,
   },
+  {
+    path: "/seller-registration",
+    component: VerkäuferRegistrationView,
+  },  
 
   {
     path: '/login',
