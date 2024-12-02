@@ -16,28 +16,41 @@
   </template>
   
   <script>
-  export default {
-    name: "WelcomePage",
-    data() {
-      return {
-        books: [
-          { title: "Buch 1", author: "Max Mustermann" },
-          { title: "Buch 2", author: "Erika Mustermann" },
-          { title: "Buch 3", author: "John Doe" }
-        ],
-        currentSlide: 0
-      };
+import axios from "axios";
+
+export default {
+  name: "WelcomePage",
+  data() {
+    return {
+      books: [], // Initial leer, wird mit API-Daten befüllt
+      currentSlide: 0,
+    };
+  },
+  methods: {
+    async fetchBooks() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/books"); // API-Aufruf
+        this.books = response.data; // Daten aus API speichern
+        if (this.books.length === 0) {
+          console.warn("Keine Bücher in der Datenbank gefunden.");
+        }
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Bücher:", error);
+      }
     },
-    methods: {
-      showNextSlide() {
+    showNextSlide() {
+      if (this.books.length > 0) {
         this.currentSlide = (this.currentSlide + 1) % this.books.length;
       }
     },
-    mounted() {
-      setInterval(this.showNextSlide, 3000);
-    }
-  };
-  </script>
+  },
+  async mounted() {
+    await this.fetchBooks(); // Daten beim Laden der Komponente holen
+    setInterval(this.showNextSlide, 3000); // Slider starten
+  },
+};
+</script>
+
   
   <style scoped>
   #welcome-page {

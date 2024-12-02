@@ -46,19 +46,42 @@
       </div>
       <div class="form-group">
         <label for="genre">Genre:</label>
-        <select id="genre" v-model="book.genre" required>
-          <option value="" disabled>Bitte wählen</option>
-          <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
-        </select>
+        <div class="genre-selection">
+          <select id="genre" v-model="book.genre" required>
+            <option value="" disabled>Bitte wählen</option>
+            <option v-for="genre in genres" :key="genre.id" :value="genre.id">
+              {{ genre.name }}
+            </option>
+          </select>
+          <button type="button" @click="addNewGenre" class="add-genre-btn">+</button>
+        </div>
+        <div v-if="isAddingGenre">
+          <label for="new-genre-name">Neues Genre hinzufügen:</label>
+          <input
+            type="text"
+            id="new-genre-name"
+            v-model="newGenre.name"
+            placeholder="Neues Genre eingeben"
+            required
+          />
+          <button type="button" @click="saveNewGenre">Hinzufügen</button>
+        </div>
       </div>
       <div class="form-group">
         <label for="description">Beschreibung:</label>
         <input type="text" id="description" v-model="book.description" required />
       </div>
       <div class="form-group">
-        <label for="price">Preis:</label>
-        <input type="number" id="price" v-model="book.price" required />
-      </div>
+  <label for="price">Preis:</label>
+  <input
+    type="text"
+    id="price"
+    v-model="book.price"
+    @input="validatePrice"
+    required
+    placeholder="z. B. 19,99"
+  />
+</div>
       <div class="form-group">
         <label for="age_recommendation">Altersbeschränkung:</label>
         <select id="age_recommendation" v-model="book.age_recommendation" required>
@@ -97,7 +120,7 @@ export default {
         author: "",
         genre: "",
         description: "",
-        price: null,
+        price: null, // Preis wird als Dezimalzahl gespeichert
         release: "",
         age_recommendation: 0,
         publisher: "",
@@ -107,19 +130,36 @@ export default {
         name: "",
         birthday: "",
       },
+      newGenre: {
+        name: "",
+      },
       authors: [],
       genres: [],
       ageRestrictions: [0, 6, 12, 16, 18],
       publishers: [],
       isAddingAuthor: false,
+      isAddingGenre: false,
     };
   },
   methods: {
     submitForm() {
+      const price = parseFloat(this.book.price);
+      if (isNaN(price)) {
+        alert("Bitte geben Sie einen gültigen Preis ein.");
+        return;
+      }
+      this.book.price = price; // Ensure price is a number without quotes
+
       console.log("Neues Buch:", this.book);
       this.addNewBook();
       alert(`Buch "${this.book.title}" erfolgreich hinzugefügt!`);
       this.resetForm();
+    },
+    validatePrice(event) {
+      const input = event.target.value;
+      // Nur Zahlen, Komma und Punkt erlauben
+      const formatted = input.replace(/[^0-9.,]/g, "");
+      this.book.price = formatted.replace(",", "."); // Komma durch Punkt ersetzen
     },
     addNewBook() {
       const bookData = {
@@ -128,15 +168,27 @@ export default {
           id: this.book.author,
           name: this.authors.find((author) => author.id === this.book.author)?.name,
         },
+        genre: {
+          id: this.book.genre,
+          name: this.genres.find((genre) => genre.id === this.book.genre)?.name,
+        },
+        publisher: {
+          id: this.book.publisher,
+          name: this.publishers.find((publisher) => publisher.id === this.book.publisher)?.name,
+        },
+        price: parseFloat(this.book.price).toFixed(2),
       };
 
       axios
         .post("http://127.0.0.1:8000/book", bookData)
         .then((response) => {
           console.log("Buch erfolgreich hinzugefügt:", response.data);
+          alert(`Buch "${this.book.title}" erfolgreich hinzugefügt!`);
+          this.resetForm();
         })
         .catch((error) => {
           console.error("Fehler beim Hinzufügen des Buches:", error);
+          alert("Fehler beim Hinzufügen des Buches.");
         });
     },
     resetForm() {
@@ -154,6 +206,8 @@ export default {
       };
       this.newAuthor = { name: "", birthday: "" };
       this.isAddingAuthor = false;
+      this.newGenre = { name: "" };
+      this.isAddingGenre = false;
     },
     addNewAuthor() {
       this.isAddingAuthor = true;
@@ -189,15 +243,29 @@ export default {
           console.error("Fehler beim Abrufen der Autoren:", error);
         });
     },
-    fetchPublishers() {
-      axios
-        .get("http://127.0.0.1:8000/publisher")
-        .then((response) => {
-          this.publishers = response.data;
-        })
-        .catch((error) => {
-          console.error("Fehler beim Abrufen der Verlage:", error);
-        });
+    addNewGenre() {
+      this.isAddingGenre = true;
+    },
+    saveNewGenre() {
+      const { name } = this.newGenre;
+      if (name) {
+        axios
+          .post("http://127.0.0.1:8000/genre", { name })
+          .then((response) => {
+            const newGenre = response.data;
+            this.genres.push(newGenre);
+            this.book.genre = newGenre.id;
+            this.isAddingGenre = false;
+            this.newGenre = { name: "" };
+            alert("Neues Genre erfolgreich hinzugefügt!");
+          })
+          .catch((error) => {
+            console.error("Fehler beim Hinzufügen des Genres:", error);
+            alert("Fehler beim Hinzufügen des neuen Genres.");
+          });
+      } else {
+        alert("Bitte Name des Genres eingeben.");
+      }
     },
     fetchGenres() {
       axios
@@ -209,6 +277,16 @@ export default {
           console.error("Fehler beim Abrufen der Genres:", error);
         });
     },
+    fetchPublishers() {
+      axios
+        .get("http://127.0.0.1:8000/publisher")
+        .then((response) => {
+          this.publishers = response.data;
+        })
+        .catch((error) => {
+          console.error("Fehler beim Abrufen der Verlage:", error);
+        });
+    },
   },
   mounted() {
     this.fetchAuthors();
@@ -217,6 +295,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .offer-books-container {
@@ -292,5 +371,25 @@ button[type="button"] {
 
 button[type="button"]:hover {
   background-color: #0056b3;
+}
+
+.genre-selection {
+  display: flex;
+  align-items: center;
+}
+
+.add-genre-btn {
+  margin-left: 10px;
+  background-color: #28a745;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.add-genre-btn:hover {
+  background-color: #218838;
 }
 </style>
