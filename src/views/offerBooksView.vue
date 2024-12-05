@@ -4,7 +4,7 @@
     <form @submit.prevent="submitForm">
       <div class="form-group">
         <label for="isbn">ISBN:</label>
-        <input type="number" id="isbn" v-model="book.isbn" required />
+        <input type="string" id="isbn" v-model="book.isbn" required />
       </div>
       <div class="form-group">
         <label for="title">Titel:</label>
@@ -13,7 +13,7 @@
       <div class="form-group">
         <label for="author">Autor:</label>
         <div class="author-selection">
-          <select id="author" v-model="book.author" required>
+          <select id="author" v-model="book.author_id" required>
             <option value="" disabled>Bitte wählen</option>
             <option v-for="author in authors" :key="author.id" :value="author.id">
               {{ author.name }} ({{ author.birthday }})
@@ -47,7 +47,7 @@
       <div class="form-group">
         <label for="genre">Genre:</label>
         <div class="genre-selection">
-          <select id="genre" v-model="book.genre" required>
+          <select id="genre" v-model="book.genre_id" required>
             <option value="" disabled>Bitte wählen</option>
             <option v-for="genre in genres" :key="genre.id" :value="genre.id">
               {{ genre.name }}
@@ -79,7 +79,7 @@
     v-model="book.price"
     @input="validatePrice"
     required
-    placeholder="z. B. 19,99"
+    placeholder="z. B. 19.99"
   />
 </div>
       <div class="form-group">
@@ -91,7 +91,7 @@
       </div>
       <div class="form-group">
         <label for="publisher">Verlag:</label>
-        <select id="publisher" v-model="book.publisher" required>
+        <select id="publisher" v-model="book.publisher_id" required>
           <option value="" disabled>Bitte wählen</option>
           <option v-for="publisher in publishers" :key="publisher.id" :value="publisher.id">
             {{ publisher.name }}
@@ -115,15 +115,15 @@ export default {
   data() {
     return {
       book: {
-        isbn: "",
+        isbn: "", // Ensure ISBN is a string
         title: "",
-        author: "",
-        genre: "",
+        author_id: "",
+        genre_id: "",
         description: "",
         price: null, // Preis wird als Dezimalzahl gespeichert
         release: "",
         age_recommendation: 0,
-        publisher: "",
+        publisher_id: "",
         stock: 0,
       },
       newAuthor: {
@@ -165,16 +165,16 @@ export default {
       const bookData = {
         ...this.book,
         author: {
-          id: this.book.author,
-          name: this.authors.find((author) => author.id === this.book.author)?.name,
+          id: this.book.author_id,
+          name: this.authors.find((author) => author.id === this.book.author_id)?.name,
         },
         genre: {
-          id: this.book.genre,
-          name: this.genres.find((genre) => genre.id === this.book.genre)?.name,
+          id: this.book.genre_id,
+          name: this.genres.find((genre) => genre.id === this.book.genre_id)?.name,
         },
         publisher: {
-          id: this.book.publisher,
-          name: this.publishers.find((publisher) => publisher.id === this.book.publisher)?.name,
+          id: this.book.publisher_id,
+          name: this.publishers.find((publisher) => publisher.id === this.book.publisher_id)?.name,
         },
         price: parseFloat(this.book.price).toFixed(2),
       };
@@ -193,15 +193,15 @@ export default {
     },
     resetForm() {
       this.book = {
-        isbn: "",
+        isbn: "", // Ensure ISBN is reset as a string
         title: "",
-        author: "",
-        genre: "",
+        author_id: "",
+        genre_id: "",
         description: "",
         price: null,
         release: "",
         age_recommendation: 0,
-        publisher: "",
+        publisher_id: "",
         stock: 0,
       };
       this.newAuthor = { name: "", birthday: "" };
