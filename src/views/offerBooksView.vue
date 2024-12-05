@@ -102,6 +102,10 @@
         <label for="stock">Anzahl Exemplare:</label>
         <input type="number" id="stock" v-model="book.stock" required />
       </div>
+      <div class="form-group">
+        <label for="image">Bild:</label>
+        <input type="file" id="image" @change="handleImageUpload" />
+      </div>
       <button type="submit">Buch hinzufügen</button>
     </form>
   </div>
@@ -125,6 +129,7 @@ export default {
         age_recommendation: 0,
         publisher_id: "",
         stock: 0,
+        image: "", // Add image property
       },
       newAuthor: {
         name: "",
@@ -161,6 +166,16 @@ export default {
       const formatted = input.replace(/[^0-9.,]/g, "");
       this.book.price = formatted.replace(",", "."); // Komma durch Punkt ersetzen
     },
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.book.image = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    },
     addNewBook() {
       const bookData = {
         ...this.book,
@@ -177,6 +192,7 @@ export default {
           name: this.publishers.find((publisher) => publisher.id === this.book.publisher_id)?.name,
         },
         price: parseFloat(this.book.price).toFixed(2),
+        image: this.book.image, // Include image in book data
       };
 
       axios
@@ -203,6 +219,7 @@ export default {
         age_recommendation: 0,
         publisher_id: "",
         stock: 0,
+        image: "", // Reset image
       };
       this.newAuthor = { name: "", birthday: "" };
       this.isAddingAuthor = false;
