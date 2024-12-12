@@ -3,10 +3,14 @@
     <!-- Filtermenu -->
     <aside class="filter-menu">
       <h3>Filter</h3>
+      <router-link to="/offerBooksView" class="add-book-button">
+        Neues Buch anlegen
+      </router-link>
       <div>
         <label>
           <input type="checkbox" value="Neu" v-model="selectedCategories" />Neu
-        </label><br><br>
+        </label>
+        <br><br>
       </div>
       <div>
         <label>Genre: </label>
@@ -19,7 +23,8 @@
           <option value="Thriller">Thriller</option>
           <option value="Drama">Drama</option>
         </select>
-      </div><br>
+      </div>
+      <br>
       <div>
         <label>Autor: </label>
         <select v-model="selectedAuthor">
@@ -27,7 +32,8 @@
           <option value="J.K. Rowling">J.K. Rowling</option>
           <option value="Benedict Wells">Benedict Wells</option>
         </select>
-      </div><br>
+      </div>
+      <br>
       <div>
         <label>Verlag: </label>
         <select v-model="selectedVerlag">
@@ -36,21 +42,29 @@
           <option value="Ernst Klett Verlag">Ernst Klett Verlag</option>
           <option value="Cornelsen Verlag">Cornelsen Verlag</option>
         </select>
-      </div><br>
+      </div>
+      <br>
       <div>
         <label>Maximaler Preis:</label>
-        <input type="number" v-model="maxPrice" placeholder="Max. Preis" />
-      </div><br>
+        <input
+          type="range"
+          v-model="maxPrice"
+          :min="minPrice"
+          :max="maxAvailablePrice"
+          step="1"
+        />
+        <span>{{ maxPrice }} €</span>
+      </div>
+      <br>
     </aside>
 
     <!-- Produkte -->
     <main class="products-container">
       <h1>Bücher</h1>
-      <router-link to="/offerBooksView" class="add-book-button">Neues Buch anlegen</router-link>
       <div class="product-grid">
         <router-link
           :to="{ name: 'articleView', params: { id: product.id }}"
-          v-for="product in filteredProducts" 
+          v-for="product in filteredProducts"
           :key="product.id"
           class="product-link"
         >
@@ -58,7 +72,7 @@
             <h3>{{ product.name }}</h3>
             <img :src="product.image" alt="Bild von {{ product.name }}" class="product-image" />
             <p>{{ product.genre }}</p>
-            <p> {{ product.author }}</p>
+            <p>{{ product.author }}</p>
             <p>{{ product.description }}</p>
             <p>{{ product.verlag }}</p>
             <p>Preis: {{ product.price }} €</p>
@@ -87,10 +101,14 @@ export default {
       selectedGenre: "",
       selectedAuthor: "",
       selectedVerlag: "",
-      maxPrice: null,
+      maxPrice: 60, // Default-Wert für den Schieberegler
+      minPrice: 0, // Minimaler Preis
     };
   },
   computed: {
+    maxAvailablePrice() {
+      return Math.max(...this.products.map((product) => product.price));
+    },
     filteredProducts() {
       return this.products.filter((product) => {
         const matchesCategory = this.selectedCategories.length
@@ -99,8 +117,8 @@ export default {
         const matchesGenre = this.selectedGenre ? product.genre === this.selectedGenre : true;
         const matchesVerlag = this.selectedVerlag ? product.verlag === this.selectedVerlag : true;
         const matchesAuthor = this.selectedAuthor ? product.author === this.selectedAuthor : true;
-        const matchesPrice = this.maxPrice ? product.price <= this.maxPrice : true;
-        return matchesCategory && matchesGenre && matchesAuthor &&matchesVerlag && matchesPrice;
+        const matchesPrice = product.price <= this.maxPrice;
+        return matchesCategory && matchesGenre && matchesAuthor && matchesVerlag && matchesPrice;
       });
     },
   },
@@ -121,36 +139,61 @@ export default {
   },
 };
 </script>
-
+ 
 <style scoped>
 .container {
   display: flex;
   gap: 2em;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Filtermenu-Styling */
 .filter-menu {
   flex: 1;
-  border: 1px solid #ccc;
-  padding: 1em;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0; /* Dezente Umrandung */
+  padding: 1.5em;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f9f9f9, #e8f5ff); /* Heller Farbverlauf */
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
 }
 
 .filter-menu h3 {
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
+  color: #001f3f; /* Akzentfarbe */
+  font-size: 1.6em;
+  font-weight: bold;
+  text-align: center;
 }
 
-.filter-menu input[type="number"] {
-  width: 100%;
-  padding: 0.5em;
-  margin-top: 0.5em;
+.filter-menu label {
+  font-weight: 500;
+  margin-bottom: 0.5em;
+  display: block;
+  color: #0074D9; /* Dunkelblau für Labels */
 }
 
-.filter-menu input[type="text"] {
+.filter-menu select,
+.filter-menu input[type="range"] {
   width: 100%;
-  padding: 0.5em;
+  padding: 0.7em;
   margin-top: 0.5em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.filter-menu select:focus,
+.filter-menu input[type="range"]:focus {
+  border-color: #0074D9;
+  outline: none;
+}
+
+.filter-menu span {
+  font-weight: bold;
+  color: #001f3f;
 }
 
 /* Produktübersicht */
@@ -158,10 +201,17 @@ export default {
   flex: 3;
 }
 
+.products-container h1 {
+  font-size: 2em;
+  color: #001f3f;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
 .product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5em;
 }
 
 .product-link {
@@ -170,42 +220,70 @@ export default {
 }
 
 .product {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1em;
+  background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Dezentes Weiß */
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1.5em;
   text-align: center;
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sanfter Schatten */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .product:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-button {
-  background-color: #007bff;
+.product-image {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1em;
+}
+
+.product h3 {
+  font-size: 1.4em;
+  margin-bottom: 0.5em;
+  color: #001f3f;
+}
+
+.product p {
+  font-size: 0.95em;
+  margin-bottom: 0.5em;
+  color: #555;
+}
+
+.product button {
+  background: linear-gradient(135deg, #0074D9, #001f3f);
   color: white;
   border: none;
-  padding: 0.5em;
-  border-radius: 4px;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.product button:hover {
+  background: linear-gradient(135deg, #001f3f, #0074D9);
 }
 
 /* Button für "Neues Buch anlegen" */
 .add-book-button {
   display: inline-block;
-  background-color: #007bff;
+  background: linear-gradient(135deg, #0074D9, #001f3f);
   color: white;
-  padding: 0.5em 1em;
-  border-radius: 4px;
+  padding: 0.7em 1.5em;
+  border-radius: 8px;
   text-decoration: none;
-  margin-bottom: 1em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .add-book-button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #001f3f, #0074D9);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 </style>
